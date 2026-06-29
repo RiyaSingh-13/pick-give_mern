@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Base styles */
+body {
+  font-family: 'Outfit', sans-serif;
+  color: #1C2D24;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Organic Leaf Clip-Path Mask for Hero Image */
+.leaf-mask-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  aspect-ratio: 2.2; /* Widened to display the complete landscape photo */
+  clip-path: url(#organic-leaf-mask);
+  overflow: hidden;
+}
+
+.leaf-mask-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 6s ease-in-out;
+}
+
+.leaf-mask-container:hover .leaf-mask-image {
+  transform: scale(1.08);
+}
+
+/* Horizontal Stats Bar Layout Custom Grid Border/Hover styles */
+.stats-bar-shadow {
+  box-shadow: 0 16px 36px rgba(30, 57, 42, 0.15);
+}
+
+/* Paper-Notebook styled cards for Registration forms */
+.paper-sheet {
+  background-color: #FFFFFF;
+  border-top: 8px solid var(--primary);
+  box-shadow: 0 24px 48px rgba(30, 57, 42, 0.18);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.input-label {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.input-box {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(30, 57, 42, 0.2);
+  border-radius: 8px;
+  background-color: var(--bg-soft);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  transition: var(--transition-smooth);
+}
+
+.input-box:focus {
+  outline: none;
+  border-color: var(--secondary);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(120, 166, 66, 0.15);
+}
+
+/* Visual flow dashed line animation */
+.flow-arrow-dashed {
+  height: 2px;
+  width: 100%;
+  background-image: linear-gradient(to right, #78A642 50%, transparent 50%);
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+  animation: dash 20s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+/* Real-time Emergency Ring Animation for Bell Icon */
+@keyframes ring {
+  0% { transform: rotate(0); }
+  2% { transform: rotate(15deg); }
+  4% { transform: rotate(-13deg); }
+  6% { transform: rotate(17deg); }
+  8% { transform: rotate(-15deg); }
+  10% { transform: rotate(13deg); }
+  12% { transform: rotate(-11deg); }
+  14% { transform: rotate(9deg); }
+  16% { transform: rotate(-7deg); }
+  18% { transform: rotate(5deg); }
+  20% { transform: rotate(-3deg); }
+  22% { transform: rotate(1deg); }
+  24% { transform: rotate(0); }
+  100% { transform: rotate(0); }
+}
+
+.animate-emergency-ring {
+  animation: ring 1.5s ease infinite;
+  transform-origin: 50% 0;
+}
+
+/* Premium Emergency Pulse Glow for Urgent Button */
+@keyframes emergency-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(227, 33, 33, 0.6), 0 0 0 0 rgba(227, 33, 33, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(227, 33, 33, 0), 0 0 0 16px rgba(227, 33, 33, 0);
+  }
+}
+
+.animate-emergency-glow {
+  animation: emergency-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Crawling dashed route lines for real-time live transit navigator mapping */
+@keyframes dash-crawl {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+/* Leaflet DivIcon reset and style overrides */
+.leaflet-div-icon.custom-map-icon,
+.leaflet-div-icon.custom-map-pin {
+  background: transparent !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
+
