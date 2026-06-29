@@ -49,6 +49,16 @@ import {
   ShieldAlert
 } from 'lucide-react';
 
+// Override global fetch to support dynamic API URLs based on environment variables
+const originalFetch = window.fetch;
+window.fetch = (input, init) => {
+  if (typeof input === 'string' && input.startsWith('http://localhost:5001')) {
+    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+    input = input.replace('http://localhost:5001', apiBase);
+  }
+  return originalFetch(input, init);
+};
+
 
 // ============================================================================
 // RICH INDIAN CITIES GEODB & BASE COORD RESOLVER
