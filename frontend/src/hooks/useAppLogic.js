@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { api } from '../services/api';
 
 // Import specialized sub-hooks
@@ -20,6 +20,11 @@ export function useAppLogic() {
     const saved = localStorage.getItem('currentNgo');
     return saved ? JSON.parse(saved) : null;
   });
+
+  const currentNgoRef = useRef(currentNgo);
+  useEffect(() => {
+    currentNgoRef.current = currentNgo;
+  }, [currentNgo]);
 
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => localStorage.getItem('isAdminLoggedIn') === 'true');
 
@@ -61,8 +66,9 @@ export function useAppLogic() {
         const data = await resNgos.json();
         setAdminNgos(data);
         // Only update active NGO session details if an NGO is currently signed in
-        if (currentNgo && data.length > 0) {
-          const found = data.find(n => n.ngoName === currentNgo.ngoName);
+        const activeNgo = currentNgoRef.current;
+        if (activeNgo && data.length > 0) {
+          const found = data.find(n => n.ngoName === activeNgo.ngoName);
           if (found) {
             setCurrentNgo(found);
           }
