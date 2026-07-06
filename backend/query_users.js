@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
-const URI = 'mongodb+srv://riyasingh231:riya1213@cluster0.5lozjjr.mongodb.net/ngo-connect';
+require('dotenv').config();
+
+const URI = process.env.MONGODB_URI;
+
+if (!URI) {
+  console.error('❌ MONGODB_URI is not defined in .env file.');
+  process.exit(1);
+}
 
 mongoose.connect(URI)
   .then(async () => {

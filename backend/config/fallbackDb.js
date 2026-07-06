@@ -12,8 +12,41 @@ const initialUsers = [
   }
 ];
 
-const initialRequests = [];
-const initialDonations = [];
+const initialRequests = [
+  {
+    _id: "r_initial0",
+    title: "10 blankets for winter relief campaign",
+    category: "Clothes",
+    urgency: "High",
+    quantity: 10,
+    fulfilled: "0/10",
+    description: "Urgent requirements of warm blankets for community night shelter support.",
+    date: "Jun 30, 2026",
+    ngo: "Hope Foundation",
+    status: "Active"
+  }
+];
+
+const initialDonations = [
+  {
+    _id: "d_initial0",
+    title: "Warm winter jackets & woolens",
+    category: "Clothes",
+    donor: "Rahul Sharma",
+    donorEmail: "rahul@gmail.com",
+    ngo: "Common Pool",
+    location: "A-12, Sector 62, Noida",
+    status: "Offer Posted",
+    courier: "None (Awaiting Courier)",
+    courierEmail: "",
+    deliveryMode: "Volunteer",
+    otp: "5423",
+    date: "Jul 1, 2026",
+    description: "Gently used winter jackets in medium size, packed nicely.",
+    instructions: "Call on phone before coming for pick up.",
+    photo: ""
+  }
+];
 
 const initialLogs = [
   {
