@@ -1,3 +1,4 @@
+// backend/query_users.js
 const mongoose = require('mongoose');
 require('dotenv').config();
 

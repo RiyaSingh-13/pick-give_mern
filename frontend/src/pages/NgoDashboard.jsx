@@ -1,3 +1,4 @@
+// frontend/src/pages/NgoDashboard.jsx
 import React from 'react';
 import { 
   Heart, Package, CheckCircle, Clipboard, Truck, Home, LogOut

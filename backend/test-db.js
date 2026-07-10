@@ -1,3 +1,4 @@
+// backend/test-db.js
 const mongoose = require('mongoose');
 const URI = 'mongodb+srv://riyasingh231:riya1213@cluster0.5lozjjr.mongodb.net/ngo-connect';
 console.log('Connecting to database...');

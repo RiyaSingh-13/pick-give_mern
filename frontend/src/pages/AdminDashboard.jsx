@@ -1,3 +1,4 @@
+// frontend/src/pages/AdminDashboard.jsx
 import React from 'react';
 import { ChevronDown, LogOut, Home, Building, Users, Clipboard } from 'lucide-react';
 import { Logo } from '../components/Logo';

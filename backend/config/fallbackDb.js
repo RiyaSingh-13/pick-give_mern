@@ -1,3 +1,4 @@
+// backend/config/fallbackDb.js
 // In-memory fallback database for seamless offline/unwhitelisted testing
 const initialUsers = [
   {

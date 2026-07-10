@@ -1,13 +1,14 @@
+// frontend/src/pages/LandingPage.jsx
 import React from 'react';
 import { 
   Shield, MapPin, Users, Heart, Info, Sparkles, Phone, Mail, 
-  UserPlus, Building, User, LogOut, ArrowRight, X, CheckCircle, 
-  Upload, Lock, Check, Shirt, Apple, BookOpen, Gamepad2, 
-  HeartPulse, Laptop, Armchair, Grid, TrendingUp, Package 
+  UserPlus, Building, User, LogOut, Package, TrendingUp,
+  Shirt, Apple, BookOpen, Gamepad2, HeartPulse, Laptop, Armchair, Grid 
 } from 'lucide-react';
 import donationDeliveryImg from '../assets/donation_delivery.png';
 import { AuthModals } from '../components/AuthModals';
 import { Logo } from '../components/Logo';
+import { Button } from '../components/UI/Button';
 
 export function LandingPage({
   currentMember,
@@ -93,6 +94,95 @@ export function LandingPage({
     }
   ];
 
+  const handleSignOut = () => {
+    setCurrentMember(null);
+    setCurrentNgo(null);
+    setIsAdminLoggedIn(false);
+    localStorage.removeItem('currentMember');
+    localStorage.removeItem('currentNgo');
+    localStorage.setItem('isAdminLoggedIn', 'false');
+    navigateTo('/');
+  };
+
+  const renderHeaderActions = () => {
+    if (currentMember) {
+      return (
+        <>
+          <Button 
+            onClick={() => navigateTo('/member')}
+            variant="primary"
+          >
+            <User className="w-4 h-4 flex-shrink-0" /> Hello, {currentMember.fullName.split(' ')[0]} (Go to Dashboard)
+          </Button>
+          <Button 
+            onClick={handleSignOut}
+            variant="secondary"
+          >
+            <LogOut className="w-4 h-4 flex-shrink-0" /> Sign Out
+          </Button>
+        </>
+      );
+    }
+    if (currentNgo) {
+      return (
+        <>
+          <Button 
+            onClick={() => navigateTo('/ngo')}
+            variant="primary"
+          >
+            <Building className="w-4 h-4 flex-shrink-0" /> {currentNgo.ngoName} (Go to Dashboard)
+          </Button>
+          <Button 
+            onClick={handleSignOut}
+            variant="secondary"
+          >
+            <LogOut className="w-4 h-4 flex-shrink-0" /> Sign Out
+          </Button>
+        </>
+      );
+    }
+    if (isAdminLoggedIn) {
+      return (
+        <>
+          <Button 
+            onClick={() => navigateTo('/admin')}
+            variant="primary"
+          >
+            👑 Admin Control Panel
+          </Button>
+          <Button 
+            onClick={handleSignOut}
+            variant="secondary"
+          >
+            <LogOut className="w-4 h-4 flex-shrink-0" /> Sign Out
+          </Button>
+        </>
+      );
+    }
+    return (
+      <>
+        <Button 
+          onClick={() => setShowSignInModal(true)}
+          variant="secondary"
+        >
+          <User className="w-4 h-4 flex-shrink-0" /> Sign In
+        </Button>
+        <Button 
+          onClick={() => setShowMemberModal(true)}
+          variant="primary"
+        >
+          <UserPlus className="w-4 h-4 flex-shrink-0" /> Join as Member
+        </Button>
+        <Button 
+          onClick={() => setShowNgoModal(true)}
+          variant="outline"
+        >
+          <Building className="w-4 h-4 flex-shrink-0" /> Register NGO
+        </Button>
+      </>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-slateblack antialiased relative">
       
@@ -124,84 +214,7 @@ export function LandingPage({
 
           {/* Action Buttons bound to modals / active sessions */}
           <div className="flex items-center gap-2 xl:gap-3">
-            {currentMember ? (
-              <>
-                <button 
-                  onClick={() => navigateTo('/member')}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-semibold text-white bg-forest hover:bg-forest-hover rounded-full shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <User className="w-4 h-4 flex-shrink-0" /> Hello, {currentMember.fullName.split(' ')[0]} (Go to Dashboard)
-                </button>
-                <button 
-                  onClick={() => {
-                    setCurrentMember(null);
-                    localStorage.removeItem('currentMember');
-                    navigateTo('/');
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-bold text-forest hover:bg-[#F4F7F2] rounded-full transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <LogOut className="w-4 h-4 flex-shrink-0" /> Sign Out
-                </button>
-              </>
-            ) : currentNgo ? (
-              <>
-                <button 
-                  onClick={() => navigateTo('/ngo')}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-semibold text-white bg-forest hover:bg-forest-hover rounded-full shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <Building className="w-4 h-4 flex-shrink-0" /> {currentNgo.ngoName} (Go to Dashboard)
-                </button>
-                <button 
-                  onClick={() => {
-                    setCurrentNgo(null);
-                    localStorage.removeItem('currentNgo');
-                    navigateTo('/');
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-bold text-forest hover:bg-[#F4F7F2] rounded-full transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <LogOut className="w-4 h-4 flex-shrink-0" /> Sign Out
-                </button>
-              </>
-            ) : isAdminLoggedIn ? (
-              <>
-                <button 
-                  onClick={() => navigateTo('/admin')}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-semibold text-white bg-forest hover:bg-forest-hover rounded-full shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
-                >
-                  👑 Admin Control Panel
-                </button>
-                <button 
-                  onClick={() => {
-                    setIsAdminLoggedIn(false);
-                    navigateTo('/');
-                  }}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-bold text-forest hover:bg-[#F4F7F2] rounded-full transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <LogOut className="w-4 h-4 flex-shrink-0" /> Sign Out
-                </button>
-              </>
-            ) : (
-              <>
-                <button 
-                  onClick={() => setShowSignInModal(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-bold text-forest hover:bg-[#F4F7F2] rounded-full transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <User className="w-4 h-4 flex-shrink-0" /> Sign In
-                </button>
-                <button 
-                  onClick={() => setShowMemberModal(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-semibold text-white bg-forest hover:bg-forest-hover rounded-full shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <UserPlus className="w-4 h-4 flex-shrink-0" /> Join as Member
-                </button>
-                <button 
-                  onClick={() => setShowNgoModal(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 xl:px-4 xl:py-2 text-[12px] xl:text-sm font-semibold text-forest hover:bg-forest/5 bg-transparent border-2 border-forest rounded-full hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer whitespace-nowrap"
-                >
-                  <Building className="w-4 h-4 flex-shrink-0" /> Register NGO
-                </button>
-              </>
-            )}
+            {renderHeaderActions()}
           </div>
         </div>
       </header>
@@ -239,24 +252,27 @@ export function LandingPage({
 
             {/* CTA Group bound to modals */}
             <div className="flex flex-wrap gap-4 mb-10 justify-center lg:justify-start w-full">
-              <button 
+              <Button 
                 onClick={() => setShowMemberModal(true)}
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-base font-semibold text-white bg-forest hover:bg-forest-hover rounded-full shadow-md shadow-forest/10 hover:scale-[1.03] active:scale-[0.97] transition-all cursor-pointer"
+                variant="primary"
+                size="lg"
               >
                 <UserPlus className="w-5 h-5" /> Join as Member
-              </button>
-              <button 
+              </Button>
+              <Button 
                 onClick={() => setShowNgoModal(true)}
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-base font-semibold text-forest bg-transparent border-2 border-forest hover:bg-forest/5 rounded-full hover:scale-[1.03] active:scale-[0.97] transition-all cursor-pointer"
+                variant="outline"
+                size="lg"
               >
                 <Building className="w-5 h-5" /> Register NGO
-              </button>
-              <button 
+              </Button>
+              <Button 
                 onClick={() => setShowSignInModal(true)}
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-base font-semibold text-forest bg-[#F4F7F2] rounded-full hover:scale-[1.03] active:scale-[0.97] transition-all cursor-pointer"
+                variant="secondary"
+                size="lg"
               >
                 <User className="w-5 h-5 animate-pulse text-[#78A642]" /> Sign In to Dashboard
-              </button>
+              </Button>
             </div>
 
             {/* Quick trust metrics */}
@@ -309,7 +325,7 @@ export function LandingPage({
                   <h3 className="text-xl md:text-2xl font-extrabold text-white leading-none mt-1">
                     {item.value}
                   </h3>
-                  <p className="text-[10px] md:text-xs font-bold tracking-wide uppercase text-sage">
+                  <p className="text-[10px] md:text-xs font-bold tracking-wide uppercase text-sage font-sans">
                     {item.label}
                   </p>
                   <p className="text-[9px] text-white/50 px-2 line-clamp-1">
@@ -340,7 +356,7 @@ export function LandingPage({
               <div className="flex flex-col gap-6 mb-8">
                 {FLOW_STEPS.map((step, idx) => (
                   <div key={idx} className="flex gap-4 items-start group">
-                    <div className={`w-8 h-8 rounded-full ${step.colorClass} flex items-center justify-center font-bold text-white text-xs flex-shrink-0 transition-transform group-hover:scale-110 duration-200 shadow-sm`}>
+                    <div className={`w-8 h-8 rounded-full ${step.colorClass} flex items-center justify-center font-bold text-white text-xs flex-shrink-0 transition-transform group-hover:scale-110 duration-200 shadow-sm font-sans`}>
                       {step.step}
                     </div>
                     <div>
@@ -388,12 +404,13 @@ export function LandingPage({
               </div>
             </div>
 
-            <button 
+            <Button 
               onClick={() => setShowMemberModal(true)}
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-leaf hover:bg-leaf-hover rounded-full self-start shadow-sm cursor-pointer transition-all"
+              variant="primary"
+              className="bg-leaf hover:bg-leaf-hover self-start"
             >
               Donate Now <Heart className="w-4 h-4 fill-white text-white" />
-            </button>
+            </Button>
           </div>
 
           {/* Column 3: Why Choose Pick&Give? */}
@@ -429,7 +446,7 @@ export function LandingPage({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs font-semibold text-mutegreen text-left">
+            <div className="flex items-center gap-2 text-xs font-semibold text-mutegreen text-left font-sans">
               <Info className="w-4 h-4 text-leaf flex-shrink-0" />
               Secure verified operations inside your city.
             </div>
@@ -485,7 +502,7 @@ export function LandingPage({
                   Need custom delivery coordination or NGO bulk integrations? Speak directly with our dedicated community support desk.
                 </p>
               </div>
-              <div className="border-t border-forest/5 pt-4 flex flex-col gap-2">
+              <div className="border-t border-forest/5 pt-4 flex flex-col gap-2 font-sans">
                 <a href="tel:+919876543210" className="flex items-center gap-2 text-xs font-bold text-forest hover:text-leaf transition-colors text-left">
                   <Phone className="w-3.5 h-3.5 text-leaf" /> +91 98765 43210 (Toll-Free Support)
                 </a>
@@ -501,12 +518,12 @@ export function LandingPage({
               <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-sage">
                 <Info className="w-6 h-6 animate-pulse" />
               </div>
-              <div>
+              <div className="text-left">
                 <h4 className="text-lg font-bold font-serif text-white">Have questions about donation packaging?</h4>
-                <p className="text-xs text-white/70 font-semibold">Reach our verified team 24/7 via hotlines or email support.</p>
+                <p className="text-xs text-white/70 font-semibold font-sans">Reach our verified team 24/7 via hotlines or email support.</p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex flex-wrap gap-4 items-center font-sans">
               <a href="tel:+919876543210" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-leaf text-white font-bold text-xs hover:bg-leaf-hover transition-all">
                 <Phone className="w-3 h-3" /> Call: +91 98765 43210
               </a>
@@ -528,28 +545,30 @@ export function LandingPage({
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-3 font-serif">
               Small Acts. Lasting Impact.
             </h2>
-            <p className="text-sage text-sm font-semibold">
+            <p className="text-sage text-sm font-semibold font-sans">
               Join thousands of kind hearts making a difference every single day.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-4 justify-center">
-            <button 
+            <Button 
               onClick={() => setShowMemberModal(true)}
-              className="inline-flex items-center gap-2 px-5 py-3 text-sm font-bold text-white bg-leaf hover:bg-leaf-hover rounded-full shadow-sm cursor-pointer transition-all"
+              variant="primary"
+              className="bg-leaf hover:bg-leaf-hover px-5 py-3 text-sm font-bold text-white shadow-sm"
             >
               <UserPlus className="w-4 h-4" /> Join as Member
-            </button>
-            <button 
+            </Button>
+            <Button 
               onClick={() => setShowNgoModal(true)}
-              className="inline-flex items-center gap-2 px-5 py-3 text-sm font-bold text-white bg-transparent border-2 border-white/30 hover:bg-white/10 rounded-full cursor-pointer transition-all"
+              variant="outline"
+              className="px-5 py-3 text-sm font-bold border-white/30 text-white hover:bg-white/10 hover:border-white hover:scale-[1.02]"
             >
               <Building className="w-4 h-4" /> Register NGO
-            </button>
+            </Button>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50 relative z-10">
+        <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/50 relative z-10 font-sans">
           <p>© {new Date().getFullYear()} Pick&Give. From Your Hands to Those in Need. All rights reserved.</p>
           <div className="flex items-center gap-1.5 text-sage font-semibold">
             <Sparkles className="w-3.5 h-3.5 animate-pulse text-sage" />

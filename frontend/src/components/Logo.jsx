@@ -1,3 +1,4 @@
+// frontend/src/components/Logo.jsx
 import React from 'react';
 
 export const Logo = ({ className = '', showText = true, horizontal = true, light = false }) => {

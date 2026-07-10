@@ -1,8 +1,19 @@
+// frontend/src/components/Member/MemberOverview.jsx
 import React from 'react';
 import { Gift, Truck, ArrowRight, Heart, Users } from 'lucide-react';
 import dashboardIllustrationImg from '../../assets/dashboard_illustration.png';
+import { Card } from '../UI/Card';
+import { StatCard } from '../UI/StatCard';
+import { Button } from '../UI/Button';
 
 export function MemberOverview({ currentMember, setDashboardTab }) {
+  const impactStats = [
+    { value: 12, label: "Donations", icon: Heart, iconColor: "text-red-650", iconBg: "bg-red-50" },
+    { value: 5, label: "Deliveries", icon: Truck, iconColor: "text-blue-650", iconBg: "bg-blue-50" },
+    { value: 8, label: "NGOs Helped", icon: Users, iconColor: "text-green-650", iconBg: "bg-green-50" },
+    { value: 35, label: "Lives Impacted", icon: () => <span className="text-lg">🌿</span>, iconColor: "text-[#78A642]", iconBg: "bg-[#78A642]/10" }
+  ];
+
   return (
     <div className="space-y-8 animate-fade-in text-left">
       {/* 1. Welcome Back Banner */}
@@ -27,7 +38,7 @@ export function MemberOverview({ currentMember, setDashboardTab }) {
       {/* 2. Action Cards Curved Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Card A: Create Donation */}
-        <div className="bg-white border border-[#0F340F]/8 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col relative">
+        <Card className="overflow-hidden flex flex-col relative !p-0">
           <div className="h-28 bg-[#0F340F] w-full rounded-b-[2.5rem]"></div>
           
           <div className="absolute top-12 left-1/2 -translate-x-1/2 w-20 h-20 bg-white border-4 border-white rounded-full flex items-center justify-center shadow-md select-none">
@@ -41,17 +52,18 @@ export function MemberOverview({ currentMember, setDashboardTab }) {
             <p className="text-xs text-[#556B5D] font-bold max-w-xs leading-relaxed">
               Donate items you no longer need and help someone in need.
             </p>
-            <button 
+            <Button 
               onClick={() => setDashboardTab('donate')}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0F340F] hover:bg-[#15271D] text-white font-bold text-xs rounded-full shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              variant="primary"
+              size="md"
             >
               Create Donation <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
 
         {/* Card B: Claim Delivery */}
-        <div className="bg-white border border-[#0F340F]/8 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col relative">
+        <Card className="overflow-hidden flex flex-col relative !p-0">
           <div className="h-28 bg-[#0F340F] w-full rounded-b-[2.5rem]"></div>
           
           <div className="absolute top-12 left-1/2 -translate-x-1/2 w-20 h-20 bg-white border-4 border-white rounded-full flex items-center justify-center shadow-md select-none">
@@ -65,70 +77,42 @@ export function MemberOverview({ currentMember, setDashboardTab }) {
             <p className="text-xs text-[#556B5D] font-bold max-w-xs leading-relaxed">
               Help deliver donations and be the bridge that connects.
             </p>
-            <button 
+            <Button 
               onClick={() => setDashboardTab('tasks')}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0F340F] hover:bg-[#15271D] text-white font-bold text-xs rounded-full shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              variant="primary"
+              size="md"
             >
               Claim Delivery <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* 3. Your Impact So Far Summary Bar */}
-      <div className="bg-white border border-[#0F340F]/8 rounded-2xl shadow-sm p-6 text-left">
+      <Card className="p-6">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="pb-2 border-b-2 border-[#0F340F] self-start select-none">
             <h3 className="text-sm font-extrabold uppercase tracking-widest text-[#0F340F]">Your Impact So Far</h3>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 lg:gap-12 w-full lg:w-auto items-center lg:justify-end text-xs font-semibold text-[#556B5D]">
-            {/* Donations */}
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-red-50 text-red-600 flex items-center justify-center">
-                <Heart className="w-4 h-4 fill-red-600" />
-              </div>
-              <div>
-                <span className="text-base font-extrabold text-[#0F340F] block leading-none">12</span>
-                <span className="text-[10px] uppercase font-bold tracking-wider mt-1 block">Donations</span>
-              </div>
-            </div>
-
-            {/* Deliveries */}
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
-                <Truck className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="text-base font-extrabold text-[#0F340F] block leading-none">5</span>
-                <span className="text-[10px] uppercase font-bold tracking-wider mt-1 block">Deliveries</span>
-              </div>
-            </div>
-
-            {/* NGOs Helped */}
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
-                <Users className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="text-base font-extrabold text-[#0F340F] block leading-none">8</span>
-                <span className="text-[10px] uppercase font-bold tracking-wider mt-1 block">NGOs Helped</span>
-              </div>
-            </div>
-
-            {/* Lives Impacted */}
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#78A642]/10 text-[#78A642] flex items-center justify-center">
-                <span className="text-lg">🌿</span>
-              </div>
-              <div>
-                <span className="text-base font-extrabold text-[#0F340F] block leading-none">35</span>
-                <span className="text-[10px] uppercase font-bold tracking-wider mt-1 block">Lives Impacted</span>
-              </div>
-            </div>
+            {impactStats.map((stat, idx) => {
+              const Icon = stat.icon;
+              return (
+                <div key={idx} className="flex items-center gap-3">
+                  <div className={`w-9 h-9 rounded-full ${stat.iconBg} ${stat.iconColor} flex items-center justify-center`}>
+                    {typeof Icon === 'function' ? <Icon /> : <Icon className="w-4 h-4" />}
+                  </div>
+                  <div className="text-left">
+                    <span className="text-base font-extrabold text-[#0F340F] block leading-none">{stat.value}</span>
+                    <span className="text-[10px] uppercase font-bold tracking-wider mt-1 block">{stat.label}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* 4. Howard Zinn Quote Banner */}
       <div className="bg-[#F0F4EC] border border-[#0F340F]/5 rounded-2xl p-6 flex items-center justify-between shadow-sm relative overflow-hidden text-left">

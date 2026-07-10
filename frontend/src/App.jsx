@@ -1,3 +1,4 @@
+// frontend/src/App.jsx
 import React from 'react';
 import { useAppLogic } from './hooks/useAppLogic';
 import { LandingPage } from './pages/LandingPage';

@@ -1,6 +1,9 @@
+// frontend/src/components/Ngo/NgoOverview.jsx
 import React from 'react';
 import { ShieldAlert, Package, ArrowRight, Heart, Clipboard, CheckCircle, Truck, Users } from 'lucide-react';
 import ngoWelcomeIllustrationImg from '../../assets/ngo_welcome_illustration.png';
+import { Card } from '../UI/Card';
+import { Button } from '../UI/Button';
 
 export function NgoOverview({
   currentNgo,
@@ -14,8 +17,16 @@ export function NgoOverview({
   ngoActiveVolunteers,
   setNgoTab
 }) {
+  const stats = [
+    { value: ngoDonations.length, label: "Pending Donations", sublabel: "Waiting your acceptance", icon: Package },
+    { value: ngoReceived.length, label: "Donations Accepted", sublabel: "Accepted by NGO", icon: CheckCircle },
+    { value: ngoInDeliveries, label: "In Transit", sublabel: "Currently on the way", icon: Truck },
+    { value: ngoCompletedDeliveries, label: "Completed Deliveries", sublabel: "Successfully delivered", icon: CheckCircle },
+    { value: ngoActiveVolunteers, label: "Active Volunteers", sublabel: "Helping in deliveries", icon: Users }
+  ];
+
   return (
-    <div className="space-y-8 animate-fade-in text-left">
+    <div className="space-y-8 animate-fade-in text-left font-sans">
       {/* 1. Welcome Back Banner */}
       <div className="bg-[#F4F7F2] border border-[#0F340F]/8 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 shadow-sm overflow-hidden relative min-h-[160px]">
         <div className="space-y-3 text-left md:max-w-md z-10">
@@ -61,7 +72,7 @@ export function NgoOverview({
               <p className="text-xs text-red-850 font-semibold leading-relaxed">
                 Your NGO registration request (Reg No: <span className="font-mono font-bold text-red-900">{activeNgoRecord?.registrationNumber || currentNgo.registrationNumber}</span>) was reviewed and rejected by the administration team.
               </p>
-              <p className="text-[11px] text-red-700 font-medium">
+              <p className="text-[11px] text-red-750 font-medium">
                 Your actions (posting requirements and accepting offers) remain strictly locked. Please contact our system administrators at <a href="mailto:admin@gmail.com" className="underline font-bold text-red-900">admin@gmail.com</a> to re-verify your documents or appeal this decision.
               </p>
             </div>
@@ -70,7 +81,7 @@ export function NgoOverview({
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 shadow-sm flex items-start gap-4 text-left animate-fade-in relative overflow-hidden">
             <div className="absolute top-0 bottom-0 left-0 w-1 bg-amber-400"></div>
             <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 flex-shrink-0">
-              <ShieldAlert className="w-5 h-5" />
+              <ShieldAlert className="w-5 h-5 text-amber-600" />
             </div>
             <div className="space-y-1.5 text-left flex-grow">
               <h4 className="font-extrabold text-amber-900 text-sm font-serif flex items-center gap-1.5">
@@ -90,7 +101,7 @@ export function NgoOverview({
       {/* 2. Action Cards Grid - Horizontal Action Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Card A: Donation Box */}
-        <div className="bg-white border border-[#0F340F]/8 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex items-start gap-5 relative overflow-hidden group">
+        <Card className="flex items-start gap-5 relative overflow-hidden group">
           <div className="absolute -right-8 -bottom-8 w-24 h-24 text-[#78A642]/5 pointer-events-none group-hover:scale-110 transition-transform">
             <Heart className="w-full h-full fill-current" />
           </div>
@@ -106,17 +117,18 @@ export function NgoOverview({
                 View all donation offers from members and accept what your organization needs.
               </p>
             </div>
-            <button 
+            <Button 
               onClick={() => setNgoTab('box')}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-[#0F340F] hover:bg-[#1C4A1C] rounded-lg shadow-sm transition-all cursor-pointer"
+              variant="primary"
+              size="sm"
             >
               Go to Donation Box <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
 
         {/* Card B: Post Request */}
-        <div className="bg-white border border-[#0F340F]/8 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all flex items-start gap-5 relative overflow-hidden group">
+        <Card className="flex items-start gap-5 relative overflow-hidden group">
           <div className="absolute -right-8 -bottom-8 w-24 h-24 text-[#78A642]/5 pointer-events-none group-hover:scale-110 transition-transform">
             <Heart className="w-full h-full fill-current" />
           </div>
@@ -132,80 +144,37 @@ export function NgoOverview({
                 Post your requirements and let members know how they can help your organization.
               </p>
             </div>
-            <button 
+            <Button 
               onClick={() => setNgoTab('request')}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-[#0F340F] hover:bg-[#1C4A1C] rounded-lg shadow-sm transition-all cursor-pointer"
+              variant="primary"
+              size="sm"
             >
               Post a Request <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </Button>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* 3. Horizontal 5-Column Impact Stats Bar */}
-      <div className="bg-white border border-[#0F340F]/8 rounded-2xl p-6 shadow-[0_2px_12px_rgba(15,52,15,0.01)]">
+      <Card className="!p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-[#0F340F]/5">
-          {/* Stat 1: Pending */}
-          <div className="flex items-center gap-4 px-2 py-3 md:py-0 md:justify-center group hover:scale-[1.02] transition-all">
-            <div className="w-12 h-12 rounded-full border-2 border-[#78A642]/30 flex items-center justify-center text-[#78A642] bg-[#F8FAF5] flex-shrink-0 group-hover:bg-[#78A642]/10 transition-colors">
-              <Package className="w-5 h-5" />
-            </div>
-            <div className="text-left leading-tight">
-              <span className="text-2xl font-black text-[#0F340F] font-sans block">{ngoDonations.length}</span>
-              <span className="text-[10px] font-bold text-[#0F340F] block">Pending Donations</span>
-              <span className="text-[9px] text-[#556B5D] font-semibold block mt-0.5">Waiting your acceptance</span>
-            </div>
-          </div>
-
-          {/* Stat 2: Received */}
-          <div className="flex items-center gap-4 px-2 pt-4 md:pt-0 md:px-4 md:justify-center group hover:scale-[1.02] transition-all">
-            <div className="w-12 h-12 rounded-full border-2 border-[#78A642]/30 flex items-center justify-center text-[#78A642] bg-[#F8FAF5] flex-shrink-0 group-hover:bg-[#78A642]/10 transition-colors">
-              <CheckCircle className="w-5 h-5" />
-            </div>
-            <div className="text-left leading-tight">
-              <span className="text-2xl font-black text-[#0F340F] font-sans block">{ngoReceived.length}</span>
-              <span className="text-[10px] font-bold text-[#0F340F] block">Donations Accepted</span>
-              <span className="text-[9px] text-[#556B5D] font-semibold block mt-0.5">Accepted by NGO</span>
-            </div>
-          </div>
-
-          {/* Stat 3: In Transit */}
-          <div className="flex items-center gap-4 px-2 pt-4 md:pt-0 md:px-4 md:justify-center group hover:scale-[1.02] transition-all">
-            <div className="w-12 h-12 rounded-full border-2 border-[#78A642]/30 flex items-center justify-center text-[#78A642] bg-[#F8FAF5] flex-shrink-0 group-hover:bg-[#78A642]/10 transition-colors">
-              <Truck className="w-5 h-5" />
-            </div>
-            <div className="text-left leading-tight">
-              <span className="text-2xl font-black text-[#0F340F] font-sans block">{ngoInDeliveries}</span>
-              <span className="text-[10px] font-bold text-[#0F340F] block">In Transit</span>
-              <span className="text-[9px] text-[#556B5D] font-semibold block mt-0.5">Currently on the way</span>
-            </div>
-          </div>
-
-          {/* Stat 4: Completed */}
-          <div className="flex items-center gap-4 px-2 pt-4 md:pt-0 md:px-4 md:justify-center group hover:scale-[1.02] transition-all">
-            <div className="w-12 h-12 rounded-full border-2 border-[#78A642]/30 flex items-center justify-center text-[#78A642] bg-[#F8FAF5] flex-shrink-0 group-hover:bg-[#78A642]/10 transition-colors">
-              <CheckCircle className="w-5 h-5" />
-            </div>
-            <div className="text-left leading-tight">
-              <span className="text-2xl font-black text-[#0F340F] font-sans block">{ngoCompletedDeliveries}</span>
-              <span className="text-[10px] font-bold text-[#0F340F] block">Completed Deliveries</span>
-              <span className="text-[9px] text-[#556B5D] font-semibold block mt-0.5">Successfully delivered</span>
-            </div>
-          </div>
-
-          {/* Stat 5: Volunteers */}
-          <div className="flex items-center gap-4 px-2 pt-4 md:pt-0 md:px-4 md:justify-center group hover:scale-[1.02] transition-all">
-            <div className="w-12 h-12 rounded-full border-2 border-[#78A642]/30 flex items-center justify-center text-[#78A642] bg-[#F8FAF5] flex-shrink-0 group-hover:bg-[#78A642]/10 transition-colors">
-              <Users className="w-5 h-5" />
-            </div>
-            <div className="text-left leading-tight">
-              <span className="text-2xl font-black text-[#0F340F] font-sans block">{ngoActiveVolunteers}</span>
-              <span className="text-[10px] font-bold text-[#0F340F] block">Active Volunteers</span>
-              <span className="text-[9px] text-[#556B5D] font-semibold block mt-0.5">Helping in deliveries</span>
-            </div>
-          </div>
+          {stats.map((stat, idx) => {
+            const Icon = stat.icon;
+            return (
+              <div key={idx} className="flex items-center gap-4 px-2 py-3 md:py-0 md:justify-center group hover:scale-[1.02] transition-all first:pt-0">
+                <div className="w-12 h-12 rounded-full border-2 border-[#78A642]/30 flex items-center justify-center text-[#78A642] bg-[#F8FAF5] flex-shrink-0 group-hover:bg-[#78A642]/10 transition-colors">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div className="text-left leading-tight">
+                  <span className="text-2xl font-black text-[#0F340F] font-sans block">{stat.value}</span>
+                  <span className="text-[10px] font-bold text-[#0F340F] block">{stat.label}</span>
+                  <span className="text-[9px] text-[#556B5D] font-semibold block mt-0.5">{stat.sublabel}</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      </div>
+      </Card>
 
       {/* 4. Beautiful Centered Social Impact Quote */}
       <div className="py-8 text-center max-w-2xl mx-auto space-y-3">

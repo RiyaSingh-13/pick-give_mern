@@ -1,5 +1,10 @@
+// frontend/src/components/Ngo/NgoRequirementsBoard.jsx
 import React from 'react';
 import { CheckCircle } from 'lucide-react';
+import { SectionHeader } from '../UI/SectionHeader';
+import { Card } from '../UI/Card';
+import { Badge } from '../UI/Badge';
+import { Button } from '../UI/Button';
 
 export function NgoRequirementsBoard({
   myRequests,
@@ -13,21 +18,21 @@ export function NgoRequirementsBoard({
   handleStopRequest
 }) {
   return (
-    <div className="space-y-8 animate-fade-in text-left">
-      <div className="flex items-center justify-between border-b border-[#0F340F]/10 pb-4">
-        <div>
-          <h2 className="text-2xl font-extrabold text-[#0F340F] font-serif">📋 MY REQUESTS</h2>
-          <p className="text-xs font-semibold text-[#556B5D] mt-1">Post material needs for your shelter or program and track responses from members.</p>
-        </div>
+    <div className="space-y-8 animate-fade-in text-left font-sans">
+      <SectionHeader
+        title="MY REQUESTS"
+        subtitle="Post material needs for your shelter or program and track responses from members."
+        icon="📋"
+      >
         <span className="bg-[#78A642]/10 text-[#78A642] px-3.5 py-1.5 rounded-full text-xs font-bold border border-[#78A642]/20 select-none">
           {myRequests.length} Active Requests
         </span>
-      </div>
+      </SectionHeader>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Column: Post a New Request Form */}
-        <div className="lg:col-span-5 bg-white border border-[#0F340F]/8 rounded-2xl p-6 shadow-sm space-y-5 h-fit">
+        <Card className="lg:col-span-5 space-y-5 h-fit">
           <h3 className="text-lg font-bold text-[#0F340F] font-serif border-b border-[#0F340F]/5 pb-3">Post a New Request</h3>
           
           {requestPostedSuccess && (
@@ -132,78 +137,71 @@ export function NgoRequirementsBoard({
             )}
 
             {isApproved ? (
-              <button
+              <Button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 text-xs font-bold text-white bg-[#0F340F] hover:bg-[#1C4A1C] rounded-xl shadow-md transition-all cursor-pointer animate-fade-in"
+                variant="primary"
+                className="w-full py-3 text-xs font-bold"
               >
                 🚀 Post Request to Feed
-              </button>
+              </Button>
             ) : (
               <div className="space-y-2 pt-1 animate-fade-in">
-                <button
+                <Button
                   type="button"
                   disabled
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 text-xs font-bold text-slate-400 bg-slate-100 border border-slate-200 rounded-xl shadow-none cursor-not-allowed select-none"
+                  variant="secondary"
+                  className="w-full py-3 text-xs font-bold !text-slate-400 !bg-slate-100 !border !border-slate-200 shadow-none cursor-not-allowed select-none"
                 >
                   🔒 Awaiting Account Verification
-                </button>
+                </Button>
                 <p className="text-[10px] text-amber-600 font-bold text-center leading-normal">
                   ⚠️ Only verified NGOs can post requirements on the public community feed.
                 </p>
               </div>
             )}
           </form>
-        </div>
+        </Card>
 
         {/* Right Column: Posted Requests List */}
         <div className="lg:col-span-7 space-y-4">
           <h3 className="text-lg font-bold text-[#0F340F] font-serif border-b border-[#0F340F]/5 pb-3">Active NGO Requirements</h3>
           
           {myRequests.length === 0 ? (
-            <div className="bg-white border border-[#0F340F]/8 rounded-2xl p-12 text-center space-y-2 shadow-sm">
+            <Card className="p-12 text-center space-y-2">
               <p className="text-xs text-[#556B5D] font-bold">No active requests posted by your organization.</p>
-            </div>
+            </Card>
           ) : (
             <div className="space-y-4">
               {myRequests.map((req) => {
                 const [fulfilledVal, totalVal] = req.fulfilled.split('/').map(Number);
                 const isFulfilled = fulfilledVal >= totalVal;
                 const isStopped = req.status === 'Stopped';
+                
+                const statusStr = isStopped ? 'Stopped' : isFulfilled ? 'Fulfilled' : 'Active';
+
                 return (
-                  <div key={req._id || req.id} className={`bg-white border rounded-2xl p-5 shadow-sm space-y-4 ${isStopped ? 'border-slate-200 bg-slate-50/40 opacity-75' : 'border-[#0F340F]/8'}`}>
-                    <div className="flex items-center justify-between">
+                  <Card key={req._id || req.id} className={`space-y-4 ${isStopped ? 'bg-slate-50/40 opacity-75' : ''}`}>
+                    <div className="flex items-center justify-between text-left">
                       <div className="flex items-center gap-2">
-                        <span className="bg-[#F8FAF5] text-[#0F340F] border border-[#0F340F]/10 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                        <span className="bg-[#F8FAF5] text-[#0F340F] border border-[#0F340F]/10 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider font-sans">
                           {req.category}
                         </span>
-                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase ${
-                          req.urgency === 'High' ? 'bg-red-100 text-red-800' : req.urgency === 'Medium' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
-                        }`}>
-                          {req.urgency} Urgency
-                        </span>
-                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase border select-none ${
-                          isStopped 
-                            ? 'bg-slate-100 text-slate-600 border-slate-200' 
-                            : isFulfilled 
-                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 animate-pulse'
-                              : 'bg-green-50 text-green-700 border-green-200'
-                        }`}>
-                          {isStopped ? '🛑 Stopped' : isFulfilled ? '🎉 Fulfilled' : '🟢 Active'}
-                        </span>
+                        <Badge status={`${req.urgency} Urgency`} />
+                        <Badge status={statusStr} />
                       </div>
                       <span className="text-[10px] text-[#556B5D] font-bold">
                         Posted: {req.date}
                       </span>
                     </div>
 
-                    <div>
+                    <div className="text-left">
                       <h4 className="text-base font-bold text-[#0F340F] font-serif">{req.title}</h4>
                       <p className="text-xs text-[#556B5D] mt-1.5 leading-relaxed font-semibold">
                         {req.description || "Looking for generous contributions from members. Dropoff coordinates locked at standard Hope Shelter center."}
                       </p>
                     </div>
 
-                    <div className="pt-3.5 border-t border-[#0F340F]/5 flex items-center justify-between flex-wrap gap-3">
+                    <div className="pt-3.5 border-t border-[#0F340F]/5 flex items-center justify-between flex-wrap gap-3 text-left">
                       <div className="flex items-center gap-2">
                         <span className="text-[11px] font-bold text-[#556B5D]">Contribution progress:</span>
                         <span className="bg-[#78A642]/10 text-[#78A642] px-2 py-0.5 rounded-full text-[10px] font-bold border border-[#78A642]/20">
@@ -220,16 +218,18 @@ export function NgoRequirementsBoard({
                         </div>
 
                         {!isStopped && (
-                          <button
+                          <Button
                             onClick={() => handleStopRequest(req._id || req.id)}
-                            className="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-[10px] font-extrabold px-3 py-1.5 rounded-lg shadow-sm transition-all cursor-pointer font-sans uppercase"
+                            variant="dangerOutline"
+                            size="sm"
+                            className="text-[10px] px-3 py-1.5 font-bold uppercase rounded-lg"
                           >
                             🛑 Stop Request
-                          </button>
+                          </Button>
                         )}
                       </div>
                     </div>
-                  </div>
+                  </Card>
                 );
               })}
             </div>

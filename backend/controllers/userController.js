@@ -1,3 +1,4 @@
+// backend/controllers/userController.js
 const User = require('../models/User');
 const AuditLog = require('../models/AuditLog');
 const fallbackDb = require('../config/fallbackDb');

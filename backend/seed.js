@@ -1,3 +1,4 @@
+// backend/seed.js
 const User = require('./models/User');
 const Donation = require('./models/Donation');
 const Request = require('./models/Request');

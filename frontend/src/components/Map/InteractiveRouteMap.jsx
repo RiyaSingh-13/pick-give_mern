@@ -1,3 +1,4 @@
+// frontend/src/components/Map/InteractiveRouteMap.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { getBaseCoords } from '../../utils/geo';
 

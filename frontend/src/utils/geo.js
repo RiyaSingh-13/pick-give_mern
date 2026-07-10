@@ -1,3 +1,4 @@
+// frontend/src/utils/geo.js
 export const CITY_COORDS = {
   lucknow: [26.8467, 80.9462],
   delhi: [28.6139, 77.2090],

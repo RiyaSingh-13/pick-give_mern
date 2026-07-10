@@ -1,3 +1,4 @@
+// frontend/src/components/Map/InteractiveBookingPinMap.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { getBaseCoords } from '../../utils/geo';
 

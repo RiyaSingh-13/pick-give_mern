@@ -1,3 +1,4 @@
+// frontend/src/pages/MemberDashboard.jsx
 import React from 'react';
 import { 
   Gift, Truck, Heart, Users, Award, ChevronDown, LogOut, 

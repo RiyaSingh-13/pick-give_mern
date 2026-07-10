@@ -1,5 +1,9 @@
+// frontend/src/components/Member/MemberDonationHistory.jsx
 import React from 'react';
 import { InteractiveRouteMap } from '../Map/InteractiveRouteMap';
+import { SectionHeader } from '../UI/SectionHeader';
+import { Badge } from '../UI/Badge';
+import { Button } from '../UI/Button';
 
 export function MemberDonationHistory({
   activeDonations,
@@ -11,9 +15,10 @@ export function MemberDonationHistory({
 }) {
   return (
     <div className="space-y-6 animate-fade-in text-left">
-      <h2 className="text-2xl font-extrabold text-[#0F340F] font-serif border-b border-[#0F340F]/5 pb-4">🎁 MY DONATIONS LOG</h2>
+      <SectionHeader title="MY DONATIONS LOG" icon="🎁" />
+      
       <div className="bg-white border border-[#0F340F]/8 rounded-2xl shadow-sm overflow-hidden">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse text-xs font-semibold text-[#556B5D]">
           <thead>
             <tr className="bg-[#F8FAF5] border-b border-[#0F340F]/5 text-[10px] font-extrabold text-[#576F5E] uppercase tracking-wider">
               <th className="p-4">Donation ID</th>
@@ -28,12 +33,20 @@ export function MemberDonationHistory({
             {activeDonations.map((item) => {
               const itemId = item._id || item.id;
               const isSelected = selectedDonationId === itemId;
+              const statusStr = item.status === 'Delivered' 
+                ? 'Delivered' 
+                : item.status === 'In Transit' 
+                  ? 'In Transit' 
+                  : item.courier && item.courier.includes('Claimed') 
+                    ? 'Awaiting Pickup' 
+                    : 'Offer Posted';
+
               return (
                 <React.Fragment key={itemId}>
                   <tr 
                     onClick={() => setSelectedDonationId(isSelected ? null : itemId)}
-                    className={`hover:bg-[#F8FAF5] transition-colors cursor-pointer select-none ${
-                      isSelected ? 'bg-[#F8FAF5] border-l-4 border-[#78A642]' : ''
+                    className={`hover:bg-[#F8FAF5]/40 transition-colors cursor-pointer select-none ${
+                      isSelected ? 'bg-[#F8FAF5]/60 border-l-4 border-[#78A642]' : ''
                     }`}
                   >
                     <td className="p-4 font-mono text-[#576F5E]">
@@ -41,7 +54,7 @@ export function MemberDonationHistory({
                         {isSelected ? '▼' : '▶'} #{(itemId || '').toString().slice(-6).toUpperCase()}
                       </span>
                     </td>
-                    <td className="p-4">{item.title}</td>
+                    <td className="p-4 font-serif text-sm">{item.title}</td>
                     <td className="p-4 text-[#576F5E] font-semibold">{item.ngo}</td>
                     <td className="p-4">
                       <span className={`inline-flex items-center gap-1 text-[11px] font-extrabold ${
@@ -51,17 +64,7 @@ export function MemberDonationHistory({
                       </span>
                     </td>
                     <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase border ${
-                        item.status === 'Delivered' 
-                          ? 'bg-green-50 text-green-700 border-green-200' 
-                          : item.status === 'In Transit'
-                            ? 'bg-blue-50 text-blue-700 border-blue-200 animate-pulse'
-                            : item.courier && item.courier.includes('Claimed')
-                              ? 'bg-amber-50 text-amber-700 border-amber-200'
-                              : 'bg-slate-50 text-slate-700 border-slate-200'
-                      }`}>
-                        {item.status === 'Delivered' ? 'Delivered' : item.status === 'In Transit' ? 'In Transit' : item.courier && item.courier.includes('Claimed') ? 'Awaiting Pickup' : 'Offer Posted'}
-                      </span>
+                      <Badge status={statusStr} />
                     </td>
                     <td className="p-4 text-[#576F5E] font-semibold">{item.date}</td>
                   </tr>
@@ -93,20 +96,20 @@ export function MemberDonationHistory({
                                   Since you chose **Self Deliver**, please drop off this donation at the NGO's address. Once you're ready, click "Start Self Delivery" below. When you successfully hand over the package, click "Complete Self Delivery".
                                 </p>
                                 {item.status === 'Accepted' && (
-                                  <button
+                                  <Button
                                     onClick={() => handleStartSelfTransit(itemId)}
-                                    className="w-full mt-2 bg-[#78A642] hover:bg-[#638B34] text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm cursor-pointer font-sans"
+                                    className="w-full mt-2 font-sans rounded-xl py-2.5"
                                   >
                                     🚀 Start Self Delivery (Mark In Transit)
-                                  </button>
+                                  </Button>
                                 )}
                                 {item.status === 'In Transit' && (
-                                  <button
+                                  <Button
                                     onClick={() => handleCompleteSelfDelivery(itemId)}
-                                    className="w-full mt-2 bg-[#0F340F] hover:bg-[#1C4A1C] text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-sm cursor-pointer animate-pulse font-sans"
+                                    className="w-full mt-2 bg-[#0F340F] hover:bg-[#1C4A1C] font-sans py-2.5 rounded-xl animate-pulse"
                                   >
                                     ✔️ Complete Self Delivery (Mark Delivered)
-                                  </button>
+                                  </Button>
                                 )}
                               </div>
                             ) : (
