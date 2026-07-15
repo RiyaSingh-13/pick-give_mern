@@ -1,4 +1,4 @@
-# Pick&Give (ngo-connect-v2) 🚚💨
+# Pick&Give (ngo-connect-v2) 🚚💨    (deployed link- https://pick-give-mern-1.onrender.com/)
 
 A premium, full-stack **MERN** application designed to seamlessly bridge the gap between kind-hearted donors, volunteer couriers, and verified Non-Governmental Organizations (NGOs). 
 
